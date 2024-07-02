@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screen/set_password_screen.dart';
+import 'package:task_manager/ui/screen/otp_verification_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
@@ -45,7 +45,7 @@ class EmailVerificationScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SetPasswordScreen(),
+                        builder: (context) => const OtpVerificationScreen(),
                       ),
                     );
                   },

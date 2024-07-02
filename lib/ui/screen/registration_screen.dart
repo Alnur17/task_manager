@@ -39,7 +39,6 @@ class RegistrationScreen extends StatelessWidget {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'First Name',
                 ),
@@ -52,7 +51,6 @@ class RegistrationScreen extends StatelessWidget {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'Last Name',
                 ),
@@ -65,7 +63,7 @@ class RegistrationScreen extends StatelessWidget {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(
                   hintText: 'Mobile',
                 ),
@@ -87,7 +85,9 @@ class RegistrationScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: const Text('Register'),
                 ),
               ),

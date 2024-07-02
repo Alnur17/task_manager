@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screen/login_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
-class SetPasswordScreen extends StatelessWidget {
-  const SetPasswordScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class SetPasswordScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Set Password',
+                'Reset Password',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 1),
@@ -53,7 +54,15 @@ class SetPasswordScreen extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                          (route) => false,
+                    );
+                  },
                   child: const Text('Confirm'),
                 ),
               ),
@@ -69,7 +78,13 @@ class SetPasswordScreen extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                            (route) => false,
+                      );
                     },
                     child: Text(
                       'Sign In',
