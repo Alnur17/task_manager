@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screen/email_verification_screen.dart';
-import 'package:task_manager/ui/screen/registration_screen.dart';
+import 'package:task_manager/ui/screens/login_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +16,15 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Welcome Back',
+                'Reset Password',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 1),
               Text(
-                'Please login to continue',
+                'Minimum length password 8 Character with letter and number combination',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               TextFormField(
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
@@ -35,7 +34,7 @@ class LoginScreen extends StatelessWidget {
                 },
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
-                  hintText: 'Email',
+                  hintText: 'Password',
                 ),
               ),
               const SizedBox(height: 12),
@@ -46,59 +45,52 @@ class LoginScreen extends StatelessWidget {
                   }
                   return null;
                 },
-                obscureText: true,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
-                  hintText: 'Password',
+                  hintText: 'Confirm Password',
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  child: const Text('Sing In'),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                          (route) => false,
+                    );
+                  },
+                  child: const Text('Confirm'),
                 ),
               ),
               const SizedBox(height: 16),
-              Center(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EmailVerificationScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    'Have an account?',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          letterSpacing: 0.5,
-                        ),
+                      letterSpacing: 0.5,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const RegistrationScreen(),
+                          builder: (context) => const LoginScreen(),
                         ),
+                            (route) => false,
                       );
                     },
                     child: Text(
-                      'Register Now',
+                      'Sign In',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).primaryColor,
-                          ),
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
                 ],

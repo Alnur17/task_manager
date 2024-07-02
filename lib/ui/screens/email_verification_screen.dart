@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/screen/otp_verification_screen.dart';
+import 'package:task_manager/ui/screens/otp_verification_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
