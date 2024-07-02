@@ -26,6 +26,32 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: false,
+        primarySwatch: Colors.deepOrange,
+        inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          border: OutlineInputBorder(borderSide: BorderSide.none),
+        ),
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
           titleMedium: TextStyle(
             fontWeight: FontWeight.w400,
           ),
@@ -42,9 +68,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
       home: const SplashScreen(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screen/email_verification_screen.dart';
+import 'package:task_manager/ui/screen/registration_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -9,7 +11,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: ScreenBackground(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -18,9 +20,10 @@ class LoginScreen extends StatelessWidget {
                 'Welcome Back',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
+              const SizedBox(height: 4),
               Text(
                 'Please login to continue',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 20),
               TextFormField(
@@ -30,6 +33,7 @@ class LoginScreen extends StatelessWidget {
                   }
                   return null;
                 },
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'Email',
                 ),
@@ -52,16 +56,23 @@ class LoginScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: const Text('Login'),
+                  child: const Text('Sing In'),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Center(
-                child: TextButton(
-                  onPressed: () {},
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EmailVerificationScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Forgot Password?',
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),
@@ -75,9 +86,16 @@ class LoginScreen extends StatelessWidget {
                         ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegistrationScreen(),
+                        ),
+                      );
+                    },
                     child: Text(
-                      'Sign Up',
+                      'Register Now',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context).primaryColor,
                           ),
