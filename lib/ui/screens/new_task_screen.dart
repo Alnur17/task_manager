@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
 
