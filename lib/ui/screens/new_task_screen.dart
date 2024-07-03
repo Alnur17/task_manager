@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
+import 'package:task_manager/ui/widgets/user_profile_banner.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});
@@ -11,16 +13,7 @@ class NewTaskScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 8),
-              tileColor: Colors.blue,
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
-              ),
-              title: Text('User Name',style: TextStyle(color: Colors.white,fontSize: 14),),
-              subtitle: Text('email address',style: TextStyle(color: Colors.white,fontSize: 12),),
-            ),
+            const UserProfileBanner(),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Row(
@@ -62,6 +55,17 @@ class NewTaskScreen extends StatelessWidget {
             )),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddNewTaskScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

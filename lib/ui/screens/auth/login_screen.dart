@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/bottom_nav_base_screen.dart';
-import 'package:task_manager/ui/screens/email_verification_screen.dart';
-import 'package:task_manager/ui/screens/registration_screen.dart';
+import 'package:task_manager/ui/screens/auth/email_verification_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
+
+import 'registration_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -30,7 +31,7 @@ class LoginScreen extends StatelessWidget {
               TextFormField(
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
-                    return 'Please enter your password...';
+                    return 'Please enter your email...';
                   }
                   return null;
                 },
