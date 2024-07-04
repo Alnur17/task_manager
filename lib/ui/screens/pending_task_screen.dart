@@ -14,19 +14,24 @@ class PendingTaskScreen extends StatelessWidget {
             const UserProfileBanner(),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 8,bottom: 8),
-                  child: ListView.separated(
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return const TaskListTile();
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const Divider(
-                        height: 4,
-                      );
-                    },
-                  ),
-                )),
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: ListView.separated(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return const TaskListTile(
+                    title: 'This is the new task title',
+                    subTitle: 'This is the new task subtitle',
+                    date: '25.05.2024',
+                    taskStatus: 'Pending',
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider(
+                    height: 4,
+                  );
+                },
+              ),
+            )),
           ],
         ),
       ),
