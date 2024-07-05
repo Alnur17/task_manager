@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/splash_screen.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      key: MyApp.globalKey,
       title: 'Task Manager',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
