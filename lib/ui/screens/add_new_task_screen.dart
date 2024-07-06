@@ -14,39 +14,41 @@ class AddNewTaskScreen extends StatefulWidget {
 
 class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   final TextEditingController _titleTEController = TextEditingController();
-  final TextEditingController _descriptionTEController = TextEditingController();
+  final TextEditingController _descriptionTEController =
+      TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _addNewTaskInProgress = false;
 
   Future<void> addNewTask() async {
     _addNewTaskInProgress = true;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
 
     Map<String, dynamic> responseBody = {
-
-        "title": _titleTEController.text.trim(),
-        "description": _descriptionTEController.text.trim(),
-        "status":"New"
-
+      "title": _titleTEController.text.trim(),
+      "description": _descriptionTEController.text.trim(),
+      "status": "New"
     };
 
-    final NetworkResponse response = await NetworkCaller().postRequest(Urls.createTask, responseBody);
+    final NetworkResponse response =
+        await NetworkCaller().postRequest(Urls.createTask, responseBody);
     _addNewTaskInProgress = false;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
-    if(response.isSuccess){
+    if (response.isSuccess) {
       _titleTEController.clear();
       _descriptionTEController.clear();
-      if(mounted){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Task added successfully')));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Task added successfully')));
       }
-    }else{
-      if(mounted){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to add Task')));
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Failed to add Task')));
       }
     }
   }
@@ -76,12 +78,13 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         controller: _titleTEController,
                         decoration: const InputDecoration(
                           hintText: 'Title',
-                        ),validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter your title...';
-                        }
-                        return null;
-                      },
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Please enter your title...';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
@@ -89,24 +92,30 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                         maxLines: 5,
                         decoration: const InputDecoration(
                           hintText: 'Description',
-                        ),validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter your description...';
-                        }
-                        return null;
-                      },
+                        ),
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Please enter your description...';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if(!_formKey.currentState!.validate()){
-                              return;
-                            }
-                            addNewTask();
-                          },
-                          child: const Text('Add'),
+                        child: Visibility(
+                          visible: _addNewTaskInProgress == false,
+                          replacement:
+                              const Center(child: CircularProgressIndicator()),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              addNewTask();
+                            },
+                            child: const Text('Add'),
+                          ),
                         ),
                       ),
                     ],

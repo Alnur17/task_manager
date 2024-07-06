@@ -3,6 +3,7 @@ import 'package:task_manager/ui/screens/splash_screen.dart';
 
 class MyApp extends StatefulWidget {
   static GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
+
   const MyApp({super.key});
 
   @override
