@@ -18,9 +18,13 @@ class NetworkCaller {
           'token': AuthUtility.userInfo.token.toString()
         },
       );
+      log(response.statusCode.toString());
+      log(response.body);
       if (response.statusCode == 200) {
         return NetworkResponse(
             true, response.statusCode, jsonDecode(response.body));
+      }else if (response.statusCode == 401) {
+        gotoLogin();
       } else {
         return NetworkResponse(false, response.statusCode, null);
       }
@@ -60,7 +64,7 @@ class NetworkCaller {
   Future<void> gotoLogin() async {
     await AuthUtility.clearUserInfo();
     Navigator.pushAndRemoveUntil(
-      MyApp.globalKey.currentState!.context,
+      MyApp.globalKey.currentContext!,
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
