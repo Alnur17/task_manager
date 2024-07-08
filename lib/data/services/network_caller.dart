@@ -23,7 +23,7 @@ class NetworkCaller {
       if (response.statusCode == 200) {
         return NetworkResponse(
             true, response.statusCode, jsonDecode(response.body));
-      }else if (response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         gotoLogin();
       } else {
         return NetworkResponse(false, response.statusCode, null);
@@ -34,8 +34,8 @@ class NetworkCaller {
     return NetworkResponse(false, -1, null);
   }
 
-  Future<NetworkResponse> postRequest(
-      String url, Map<String, dynamic> body) async {
+  Future<NetworkResponse> postRequest(String url, Map<String, dynamic> body,
+      {bool isLogin = false}) async {
     try {
       Response response = await post(
         Uri.parse(url),
@@ -51,7 +51,9 @@ class NetworkCaller {
         return NetworkResponse(
             true, response.statusCode, jsonDecode(response.body));
       } else if (response.statusCode == 401) {
-        gotoLogin();
+        if (isLogin) {
+          gotoLogin();
+        }
       } else {
         return NetworkResponse(false, response.statusCode, null);
       }
@@ -68,7 +70,7 @@ class NetworkCaller {
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
-          (route) => false,
+      (route) => false,
     );
   }
 }
