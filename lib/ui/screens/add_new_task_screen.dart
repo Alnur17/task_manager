@@ -29,7 +29,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     Map<String, dynamic> responseBody = {
       "title": _titleTEController.text.trim(),
       "description": _descriptionTEController.text.trim(),
-      "status": "New"
+      "status": "new"
     };
 
     final NetworkResponse response =

@@ -8,6 +8,8 @@ class Urls {
   static String taskStatusCount = '$_baseUrl/taskStatusCount';
   static String newTasks = '$_baseUrl/listTaskByStatus/New';
   static String pendingTasks = '$_baseUrl/listTaskByStatus/inProgress';
-  static String canceledTasks = '$_baseUrl/listTaskByStatus/Canceled';
-  static String completedTasks = '$_baseUrl/listTaskByStatus/Completed';
+  static String cancelledTasks = '$_baseUrl/listTaskByStatus/cancelled';
+  static String completedTasks = '$_baseUrl/listTaskByStatus/completed';
+  static String deleteTask(String id) => '$_baseUrl/deleteTask/$id';
+  static String updateTask(String id, String status) => '$_baseUrl/updateTaskStatus/$id/$status';
 }

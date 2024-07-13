@@ -67,6 +67,8 @@ class _PendingTaskScreenState extends State<PendingTaskScreen> {
                       itemBuilder: (context, index) {
                         return TaskListTile(
                           data: _tasksListModel.data![index],
+                          onDeleteTap: () {},
+                          onEditTap: () {},
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

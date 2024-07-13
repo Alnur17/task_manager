@@ -66,7 +66,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       itemCount: _tasksListModel.data?.length ?? 0,
                       itemBuilder: (context, index) {
                         return TaskListTile(
-                          data: _tasksListModel.data![index],
+                          data: _tasksListModel.data![index], onDeleteTap: () {  }, onEditTap: () {  },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

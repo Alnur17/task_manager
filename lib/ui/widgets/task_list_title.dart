@@ -3,9 +3,14 @@ import 'package:task_manager/data/models/task_list_model.dart';
 
 class TaskListTile extends StatelessWidget {
   const TaskListTile({
-    super.key, required this.data,
+    super.key,
+    required this.data,
+    required this.onDeleteTap,
+    required this.onEditTap,
   });
+
   final TaskData data;
+  final VoidCallback onDeleteTap, onEditTap;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +19,11 @@ class TaskListTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Text(data.description ?? ''),
-           Text(data.createdDate ?? ''),
+          Text(data.description ?? ''),
+          Text(data.createdDate ?? ''),
           Row(
             children: [
-               Chip(
+              Chip(
                 label: Text(
                   data.status ?? 'New',
                   style: const TextStyle(color: Colors.white),
@@ -27,12 +32,12 @@ class TaskListTile extends StatelessWidget {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () {},
+                onPressed: onDeleteTap,
                 icon: const Icon(Icons.delete_forever_outlined),
                 color: Colors.red.shade300,
               ),
               IconButton(
-                  onPressed: () {},
+                  onPressed: onEditTap,
                   icon: const Icon(Icons.edit),
                   color: Colors.blue.shade300),
             ],

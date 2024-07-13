@@ -35,7 +35,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
     }
 
     final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.canceledTasks);
+        await NetworkCaller().getRequest(Urls.cancelledTasks);
     if (response.isSuccess) {
       _tasksListModel = TaskListModel.fromJson(response.body!);
     } else {
@@ -66,7 +66,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
                       itemCount: _tasksListModel.data?.length ?? 0,
                       itemBuilder: (context, index) {
                         return TaskListTile(
-                          data: _tasksListModel.data![index],
+                          data: _tasksListModel.data![index], onDeleteTap: () {  }, onEditTap: () {  },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
