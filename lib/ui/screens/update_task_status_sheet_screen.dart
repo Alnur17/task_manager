@@ -4,18 +4,18 @@ import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
 
-class UpdateTaskStatusSheet extends StatefulWidget {
+class UpdateTaskStatusSheetScreen extends StatefulWidget {
   final TaskData task;
   final VoidCallback onUpdate;
 
-  const UpdateTaskStatusSheet(
+  const UpdateTaskStatusSheetScreen(
       {super.key, required this.task, required this.onUpdate});
 
   @override
-  State<UpdateTaskStatusSheet> createState() => _UpdateTaskStatusSheetState();
+  State<UpdateTaskStatusSheetScreen> createState() => _UpdateTaskStatusSheetScreenState();
 }
 
-class _UpdateTaskStatusSheetState extends State<UpdateTaskStatusSheet> {
+class _UpdateTaskStatusSheetScreenState extends State<UpdateTaskStatusSheetScreen> {
   List<String> taskStatusList = ['New', 'InProgress', 'Cancelled', 'Completed'];
   late String _selectedTask;
   final bool _updateTaskStatus = false;
@@ -67,7 +67,7 @@ class _UpdateTaskStatusSheetState extends State<UpdateTaskStatusSheet> {
             itemBuilder: (context, index) {
               return ListTile(
                 onTap: () {
-                  _selectedTask = taskStatusList[index].toUpperCase();
+                  _selectedTask = taskStatusList[index];
                   setState(() {});
                 },
                 title: Text(taskStatusList[index]),

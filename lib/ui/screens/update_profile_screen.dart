@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:task_manager/data/models/auth_utility.dart';
+import 'package:task_manager/data/models/login_model.dart';
+import 'package:task_manager/data/models/network_response.dart';
+import 'package:task_manager/data/services/network_caller.dart';
+import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
-import 'package:task_manager/ui/widgets/user_profile_banner.dart';
+import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -11,6 +16,8 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
+  UserData userData = AuthUtility.userInfo.data!;
+
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
@@ -18,9 +25,58 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final bool _isUpdateProgress = false;
+  bool _profileUpdateInProgress = false;
   XFile? imageFile;
   ImagePicker picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailTEController.text = userData.email ?? '';
+    _firstNameTEController.text = userData.firstName ?? '';
+    _lastNameTEController.text = userData.lastName ?? '';
+    _mobileTEController.text = userData.mobile ?? '';
+  }
+
+  Future<void> updateProfile() async {
+    _profileUpdateInProgress == true;
+    if (mounted) {
+      setState(() {});
+    }
+
+    Map<String, dynamic> responseBody = {
+      "firstName": _firstNameTEController.text.trim(),
+      "lastName": _lastNameTEController.text.trim(),
+      "mobile": _mobileTEController.text.trim(),
+      "photo": '',
+    };
+    if(_passwordTEController.text.isNotEmpty){
+      responseBody["password"] = _passwordTEController.text;
+    }
+
+    final NetworkResponse response =
+        await NetworkCaller().postRequest(Urls.profileUpdate, responseBody);
+    _profileUpdateInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
+    if (response.isSuccess) {
+      userData.firstName = _firstNameTEController.text.trim();
+      userData.lastName = _lastNameTEController.text.trim();
+      userData.mobile = _mobileTEController.text.trim();
+      AuthUtility.updateUserInfo(userData);
+      _passwordTEController.clear();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Profile updated successfully')));
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update profile')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +85,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const UserProfileBanner(
+              const UserProfileAppbar(
                 isUpdateScreen: true,
               ),
               Padding(
@@ -86,6 +142,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       TextFormField(
                         controller: _emailTEController,
                         keyboardType: TextInputType.emailAddress,
+                        readOnly: true,
                         decoration: const InputDecoration(
                           hintText: 'Email',
                         ),
@@ -154,7 +211,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: Visibility(
-                          visible: _isUpdateProgress == false,
+                          visible: _profileUpdateInProgress == false,
                           replacement: const Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -163,6 +220,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               if (!_formKey.currentState!.validate()) {
                                 return;
                               }
+                              updateProfile();
                             },
                             child: const Text('Update'),
                           ),

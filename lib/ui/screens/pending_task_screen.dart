@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
-import 'package:task_manager/ui/widgets/user_profile_banner.dart';
+import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/network_response.dart';
 import '../../data/services/network_caller.dart';
@@ -56,7 +56,7 @@ class _PendingTaskScreenState extends State<PendingTaskScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const UserProfileBanner(),
+            const UserProfileAppbar(),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),

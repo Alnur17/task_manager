@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
+import 'package:task_manager/ui/utils/capitalization_utils.dart';
 
 class TaskListTile extends StatelessWidget {
   const TaskListTile({
@@ -15,6 +16,7 @@ class TaskListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.only(left: 12,right: 12),
       title: Text(data.title ?? 'Unknown'),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,7 +27,7 @@ class TaskListTile extends StatelessWidget {
             children: [
               Chip(
                 label: Text(
-                  data.status?.toUpperCase() ?? 'new',
+                  CapitalizationUtils.capitalize(data.status ?? 'New'),
                   style: const TextStyle(color: Colors.white),
                 ),
                 backgroundColor: _getStatusColor(data.status),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/ui/widgets/user_profile_banner.dart';
+import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/network_response.dart';
 import '../../data/models/task_list_model.dart';
@@ -56,7 +56,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const UserProfileBanner(),
+            const UserProfileAppbar(),
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),

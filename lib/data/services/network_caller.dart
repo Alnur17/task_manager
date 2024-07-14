@@ -37,6 +37,7 @@ class NetworkCaller {
   Future<NetworkResponse> postRequest(String url, Map<String, dynamic> body,
       {bool isLogin = false}) async {
     try {
+      log(body.toString());
       Response response = await post(
         Uri.parse(url),
         headers: {
@@ -51,7 +52,7 @@ class NetworkCaller {
         return NetworkResponse(
             true, response.statusCode, jsonDecode(response.body));
       } else if (response.statusCode == 401) {
-        if (isLogin) {
+        if (isLogin = false) {
           gotoLogin();
         }
       } else {

@@ -1,12 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/data/models/auth_utility.dart';
 import 'package:task_manager/ui/screens/auth/login_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
 
-class UserProfileBanner extends StatelessWidget {
+class UserProfileAppbar extends StatelessWidget {
   final bool? isUpdateScreen;
 
-  const UserProfileBanner({super.key, this.isUpdateScreen});
+  const UserProfileAppbar({super.key, this.isUpdateScreen});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +29,10 @@ class UserProfileBanner extends StatelessWidget {
                 visible: (isUpdateScreen ?? false) == false,
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        AuthUtility.userInfo.data?.photo ?? 'Unknown',
-                      ),
-                      onBackgroundImageError: (_, __) {
-                        const Icon(Icons.person_off_outlined);
-                      },
-                      radius: 20,
+                    CachedNetworkImage(
+                       imageUrl: AuthUtility.userInfo.data?.photo ?? '',
+                      placeholder: (_, __) => const Icon(Icons.account_circle_outlined),
+                      errorWidget: (_, __, ___) => const Icon(Icons.error),
                     ),
                     const SizedBox(width: 16),
                   ],
