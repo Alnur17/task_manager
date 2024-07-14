@@ -5,6 +5,7 @@ import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/ui/screens/add_new_task_screen.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet.dart';
+import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
 import 'package:task_manager/ui/widgets/user_profile_banner.dart';
@@ -81,7 +82,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.deleteTask(taskId));
+        await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
       _tasksListModel.data!.removeWhere(
         (element) => element.sId == taskId,
@@ -100,7 +101,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Column(
           children: [
             const UserProfileBanner(),

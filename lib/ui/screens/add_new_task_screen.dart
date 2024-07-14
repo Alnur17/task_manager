@@ -57,73 +57,71 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const UserProfileBanner(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Add New Task',
-                        style: Theme.of(context).textTheme.titleLarge,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const UserProfileBanner(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add New Task',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _titleTEController,
+                      decoration: const InputDecoration(
+                        hintText: 'Title',
                       ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        controller: _titleTEController,
-                        decoration: const InputDecoration(
-                          hintText: 'Title',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Please enter your title...';
-                          }
-                          return null;
-                        },
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter your title...';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    TextFormField(
+                      controller: _descriptionTEController,
+                      maxLines: 5,
+                      decoration: const InputDecoration(
+                        hintText: 'Description',
                       ),
-                      const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _descriptionTEController,
-                        maxLines: 5,
-                        decoration: const InputDecoration(
-                          hintText: 'Description',
-                        ),
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return 'Please enter your description...';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: Visibility(
-                          visible: _addNewTaskInProgress == false,
-                          replacement:
-                              const Center(child: CircularProgressIndicator()),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
-                              addNewTask();
-                            },
-                            child: const Text('Add'),
-                          ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter your description...';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: _addNewTaskInProgress == false,
+                        replacement:
+                            const Center(child: CircularProgressIndicator()),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
+                            addNewTask();
+                          },
+                          child: const Text('Add'),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -25,10 +25,10 @@ class TaskListTile extends StatelessWidget {
             children: [
               Chip(
                 label: Text(
-                  data.status ?? 'New',
+                  data.status?.toUpperCase() ?? 'new',
                   style: const TextStyle(color: Colors.white),
                 ),
-                backgroundColor: Colors.blue,
+                backgroundColor: _getStatusColor(data.status),
               ),
               const Spacer(),
               IconButton(
@@ -45,5 +45,17 @@ class TaskListTile extends StatelessWidget {
         ],
       ),
     );
+  }
+  Color _getStatusColor(String? status) {
+    switch (status) {
+      case 'inProgress':
+        return Colors.orange;
+      case 'completed':
+        return Colors.green;
+      case 'cancelled':
+        return Colors.red;
+      default:
+        return Colors.blue;
+    }
   }
 }

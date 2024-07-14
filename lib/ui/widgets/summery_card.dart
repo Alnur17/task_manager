@@ -13,12 +13,13 @@ class SummeryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
+      width: 110,
       child: Card(
-        elevation: 4,
+        elevation: 5,
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '$number',
@@ -27,7 +28,7 @@ class SummeryCard extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(title),
+              Text(title.toUpperCase()),
             ],
           ),
         ),

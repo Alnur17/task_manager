@@ -16,7 +16,7 @@ class UpdateTaskStatusSheet extends StatefulWidget {
 }
 
 class _UpdateTaskStatusSheetState extends State<UpdateTaskStatusSheet> {
-  List<String> taskStatusList = ['New', 'inProgress', 'Cancelled', 'Completed'];
+  List<String> taskStatusList = ['New', 'InProgress', 'Cancelled', 'Completed'];
   late String _selectedTask;
   final bool _updateTaskStatus = false;
 
@@ -32,7 +32,7 @@ class _UpdateTaskStatusSheetState extends State<UpdateTaskStatusSheet> {
       setState(() {});
     }
     final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.updateTask(taskId, taskStatus));
+        await NetworkCaller().getRequest(Urls.updateTasks(taskId, taskStatus));
     _updateTaskStatus == false;
     if (mounted) {
       setState(() {});
@@ -67,10 +67,10 @@ class _UpdateTaskStatusSheetState extends State<UpdateTaskStatusSheet> {
             itemBuilder: (context, index) {
               return ListTile(
                 onTap: () {
-                  _selectedTask = taskStatusList[index];
+                  _selectedTask = taskStatusList[index].toUpperCase();
                   setState(() {});
                 },
-                title: Text(taskStatusList[index].toUpperCase()),
+                title: Text(taskStatusList[index]),
                 trailing: _selectedTask == taskStatusList[index]
                     ? const Icon(Icons.check)
                     : null,
