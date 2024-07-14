@@ -108,22 +108,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             _getSummaryCountInProgress
                 ? const LinearProgressIndicator()
                 : Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(8),
                     child: SizedBox(
-                      height: 80,
+                      height: 90,
                       width: double.infinity,
-                      child: ListView.separated(
+                      child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: _summaryCountModel.data?.length ?? 0,
                         itemBuilder: (context, index) {
                           return SummeryCard(
                             number: _summaryCountModel.data?[index].sum ?? 0,
                             title: _summaryCountModel.data?[index].sId ?? 'New',
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return const Divider(
-                            height: 4,
                           );
                         },
                       ),

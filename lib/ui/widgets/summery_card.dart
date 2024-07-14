@@ -24,10 +24,11 @@ class SummeryCard extends StatelessWidget {
               Text(
                 '$number',
                 style: const TextStyle(
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              const SizedBox(height: 4),
               Text(title.toUpperCase()),
             ],
           ),
