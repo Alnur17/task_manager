@@ -4,11 +4,11 @@ import 'package:task_manager/data/models/summary_count_model.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/ui/screens/add_new_task_screen.dart';
-import 'package:task_manager/ui/screens/update_task_status_sheet.dart';
+import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
-import 'package:task_manager/ui/widgets/user_profile_banner.dart';
+import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/utils/urls.dart';
 
@@ -104,26 +104,26 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       body: ScreenBackground(
         child: Column(
           children: [
-            const UserProfileBanner(),
+            const UserProfileAppbar(),
             _getSummaryCountInProgress
                 ? const LinearProgressIndicator()
-                : Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: SizedBox(
-                      height: 90,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _summaryCountModel.data?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return SummeryCard(
-                            number: _summaryCountModel.data?[index].sum ?? 0,
-                            title: _summaryCountModel.data?[index].sId ?? 'New',
-                          );
-                        },
-                      ),
+                : Container(
+                  padding: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    height: 80,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _summaryCountModel.data?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return SummeryCard(
+                          number: _summaryCountModel.data?[index].sum ?? 0,
+                          title: _summaryCountModel.data?[index].sId ?? 'New',
+                        );
+                      },
                     ),
                   ),
+                ),
             Expanded(
                 child: RefreshIndicator(
               onRefresh: () async {
@@ -174,7 +174,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return UpdateTaskStatusSheet(
+        return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
             getNewTasks();

@@ -12,4 +12,5 @@ class Urls {
   static String completedTasks = '$_baseUrl/listTaskByStatus/completed';
   static String deleteTasks(String id) => '$_baseUrl/deleteTask/$id';
   static String updateTasks(String id, String status) => '$_baseUrl/updateTaskStatus/$id/$status';
+  static String profileUpdate = '$_baseUrl/profileUpdate';
 }
