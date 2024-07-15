@@ -8,14 +8,14 @@ import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
 import '../widgets/task_list_title.dart';
 
-class PendingTaskScreen extends StatefulWidget {
-  const PendingTaskScreen({super.key});
+class InProgressTaskScreen extends StatefulWidget {
+  const InProgressTaskScreen({super.key});
 
   @override
-  State<PendingTaskScreen> createState() => _PendingTaskScreenState();
+  State<InProgressTaskScreen> createState() => _InProgressTaskScreenState();
 }
 
-class _PendingTaskScreenState extends State<PendingTaskScreen> {
+class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
   TaskListModel _tasksListModel = TaskListModel();
   bool _getPendingTaskInProgress = false;
 

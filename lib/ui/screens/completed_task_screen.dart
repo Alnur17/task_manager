@@ -53,10 +53,10 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
-    await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
+        await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
       _tasksListModel.data!.removeWhere(
-            (element) => element.sId == taskId,
+        (element) => element.sId == taskId,
       );
       if (mounted) {
         setState(() {});
@@ -90,7 +90,8 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                             deleteTask(_tasksListModel.data![index].sId!);
                           },
                           onEditTap: () {
-                            showStatusUpdateBottomSheet(_tasksListModel.data![index]);
+                            showStatusUpdateBottomSheet(
+                                _tasksListModel.data![index]);
                           },
                         );
                       },
@@ -106,6 +107,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       ),
     );
   }
+
   void showStatusUpdateBottomSheet(TaskData task) {
     showModalBottomSheet(
       context: context,

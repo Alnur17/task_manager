@@ -87,10 +87,11 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
                         return TaskListTile(
                           data: _tasksListModel.data![index],
                           onDeleteTap: () {
-                          _tasksListModel.data![index].sId!;
+                            _tasksListModel.data![index].sId!;
                           },
                           onEditTap: () {
-                            showStatusUpdateBottomSheet(_tasksListModel.data![index]);
+                            showStatusUpdateBottomSheet(
+                                _tasksListModel.data![index]);
                           },
                         );
                       },

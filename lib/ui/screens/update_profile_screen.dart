@@ -50,7 +50,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       "mobile": _mobileTEController.text.trim(),
       "photo": '',
     };
-    if(_passwordTEController.text.isNotEmpty){
+    if (_passwordTEController.text.isNotEmpty) {
       responseBody["password"] = _passwordTEController.text;
     }
 
@@ -144,8 +144,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.emailAddress,
                         readOnly: true,
                         decoration: const InputDecoration(
-                          hintText: 'Email',
-                        ),
+                            hintText: 'Email',
+                            prefixIcon: Icon(Icons.email_outlined)),
                         validator: (value) {
                           if (value?.isEmpty ?? true) {
                             return 'Please enter your email...';
@@ -158,6 +158,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         controller: _firstNameTEController,
                         decoration: const InputDecoration(
                           hintText: 'First Name',
+                          prefixIcon: Icon(Icons.drive_file_rename_outline),
                         ),
                         validator: (value) {
                           if (value?.isEmpty ?? true) {
@@ -171,6 +172,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         controller: _lastNameTEController,
                         decoration: const InputDecoration(
                           hintText: 'Last Name',
+                          prefixIcon: Icon(Icons.drive_file_rename_outline),
                         ),
                         validator: (value) {
                           if (value?.isEmpty ?? true) {
@@ -185,6 +187,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         keyboardType: TextInputType.phone,
                         decoration: const InputDecoration(
                           hintText: 'Mobile',
+                          prefixIcon: Icon(Icons.phone),
                         ),
                         validator: (value) {
                           if ((value?.isEmpty ?? true) || value!.length < 11) {
@@ -199,6 +202,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         obscureText: true,
                         decoration: const InputDecoration(
                           hintText: 'Password',
+                          prefixIcon: Icon(Icons.lock_outline),
                         ),
                         validator: (value) {
                           if ((value?.isEmpty ?? true) || value!.length <= 5) {

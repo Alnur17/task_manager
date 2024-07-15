@@ -12,10 +12,12 @@ class UpdateTaskStatusSheetScreen extends StatefulWidget {
       {super.key, required this.task, required this.onUpdate});
 
   @override
-  State<UpdateTaskStatusSheetScreen> createState() => _UpdateTaskStatusSheetScreenState();
+  State<UpdateTaskStatusSheetScreen> createState() =>
+      _UpdateTaskStatusSheetScreenState();
 }
 
-class _UpdateTaskStatusSheetScreenState extends State<UpdateTaskStatusSheetScreen> {
+class _UpdateTaskStatusSheetScreenState
+    extends State<UpdateTaskStatusSheetScreen> {
   List<String> taskStatusList = ['New', 'InProgress', 'Cancelled', 'Completed'];
   late String _selectedTask;
   final bool _updateTaskStatus = false;

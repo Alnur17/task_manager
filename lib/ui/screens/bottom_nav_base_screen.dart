@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_manager/ui/screens/canceled_task_screen.dart';
 import 'package:task_manager/ui/screens/completed_task_screen.dart';
 import 'package:task_manager/ui/screens/new_task_screen.dart';
-import 'package:task_manager/ui/screens/pending_task_screen.dart';
+import 'package:task_manager/ui/screens/inProgress_task_screen.dart';
 
 class BottomNavBaseScreen extends StatefulWidget {
   const BottomNavBaseScreen({super.key});
@@ -15,7 +15,7 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
   int _selectedScreenIndex = 0;
   final List<Widget> _screen = const [
     NewTaskScreen(),
-    PendingTaskScreen(),
+    InProgressTaskScreen(),
     CanceledTaskScreen(),
     CompletedTaskScreen(),
   ];
@@ -43,7 +43,7 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pending_outlined),
-            label: 'Pending',
+            label: 'InProgress',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.cancel_outlined),

@@ -83,6 +83,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -96,6 +97,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   controller: _firstNameTEController,
                   decoration: const InputDecoration(
                     hintText: 'First Name',
+                    prefixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -109,6 +111,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   controller: _lastNameTEController,
                   decoration: const InputDecoration(
                     hintText: 'Last Name',
+                    prefixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -123,6 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   keyboardType: TextInputType.phone,
                   decoration: const InputDecoration(
                     hintText: 'Mobile',
+                    prefixIcon: Icon(Icons.local_phone_outlined),
                   ),
                   validator: (value) {
                     if ((value?.isEmpty ?? true) || value!.length < 11) {
@@ -137,6 +141,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock_outline),
                   ),
                   validator: (value) {
                     if ((value?.isEmpty ?? true) || value!.length <= 5) {
@@ -180,10 +185,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Text(
                         'Sing In',
-                        style:
-                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                ),
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context).primaryColor,
+                            ),
                       ),
                     ),
                   ],

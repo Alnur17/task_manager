@@ -92,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -106,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock_outline),
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {

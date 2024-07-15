@@ -156,6 +156,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

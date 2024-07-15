@@ -11,7 +11,7 @@ class TaskManagerApp extends StatefulWidget {
 }
 
 class _TaskManagerAppState extends State<TaskManagerApp> {
-  // This widget is the root of your application.
+  // This widget is the root of my application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

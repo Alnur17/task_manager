@@ -9,33 +9,36 @@ import 'login_screen.dart';
 class ResetPasswordScreen extends StatefulWidget {
   final String email;
   final String otp;
-  const ResetPasswordScreen({super.key, required this.email, required this.otp});
+
+  const ResetPasswordScreen(
+      {super.key, required this.email, required this.otp});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-
   final TextEditingController _passwordTEController = TextEditingController();
-  final TextEditingController _confirmPasswordTEController = TextEditingController();
+  final TextEditingController _confirmPasswordTEController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _setPasswordInProgress = false;
 
-  Future<void> resetPassword() async{
+  Future<void> resetPassword() async {
     _setPasswordInProgress = true;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
 
-    Map<String ,dynamic> responseBody = {
+    Map<String, dynamic> responseBody = {
       "email": widget.email,
       "OTP": widget.otp,
       "password": _passwordTEController.text,
     };
-    final NetworkResponse response = await NetworkCaller().postRequest(Urls.resetPassword, responseBody);
+    final NetworkResponse response =
+        await NetworkCaller().postRequest(Urls.resetPassword, responseBody);
     _setPasswordInProgress = false;
-    if(mounted){
+    if (mounted) {
       setState(() {});
     }
     if (response.isSuccess) {
@@ -50,7 +53,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           MaterialPageRoute(
             builder: (context) => const LoginScreen(),
           ),
-              (route) => false,
+          (route) => false,
         );
       } else {
         if (mounted) {
@@ -97,6 +100,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock_outline),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -104,7 +108,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter your password...';
-                    }else if (value! != _passwordTEController.text){
+                    } else if (value! != _passwordTEController.text) {
                       return 'Confirm password doesn\'t match';
                     }
                     return null;
@@ -113,6 +117,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'Confirm Password',
+                    prefixIcon: Icon(Icons.lock_outline),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -120,10 +125,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   width: double.infinity,
                   child: Visibility(
                     visible: _setPasswordInProgress == false,
-                    replacement: const Center(child: CircularProgressIndicator()),
+                    replacement:
+                        const Center(child: CircularProgressIndicator()),
                     child: ElevatedButton(
                       onPressed: () {
-                        if(!_formKey.currentState!.validate()){
+                        if (!_formKey.currentState!.validate()) {
                           return;
                         }
                         resetPassword();
@@ -139,8 +145,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     Text(
                       'Have an account?',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        letterSpacing: 0.5,
-                      ),
+                            letterSpacing: 0.5,
+                          ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -149,14 +155,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           MaterialPageRoute(
                             builder: (context) => const LoginScreen(),
                           ),
-                              (route) => false,
+                          (route) => false,
                         );
                       },
                       child: Text(
                         'Sign In',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        ),
+                              color: Theme.of(context).primaryColor,
+                            ),
                       ),
                     ),
                   ],

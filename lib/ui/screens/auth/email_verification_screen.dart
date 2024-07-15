@@ -89,6 +89,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     hintText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined),
                   ),
                 ),
                 const SizedBox(height: 24),
