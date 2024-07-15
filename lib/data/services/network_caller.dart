@@ -11,6 +11,7 @@ import 'package:task_manager/ui/screens/auth/login_screen.dart';
 class NetworkCaller {
   Future<NetworkResponse> getRequest(String url) async {
     try {
+      log(url);
       Response response = await get(
         Uri.parse(url),
         headers: {

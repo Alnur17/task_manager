@@ -65,132 +65,130 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Join With Us',
-                    style: Theme.of(context).textTheme.titleLarge,
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Join With Us',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _emailTEController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    hintText: 'Email',
                   ),
-                  const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _emailTEController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter your email...';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _firstNameTEController,
+                  decoration: const InputDecoration(
+                    hintText: 'First Name',
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter your first name...';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _lastNameTEController,
+                  decoration: const InputDecoration(
+                    hintText: 'Last Name',
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter your last name...';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _mobileTEController,
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    hintText: 'Mobile',
+                  ),
+                  validator: (value) {
+                    if ((value?.isEmpty ?? true) || value!.length < 11) {
+                      return 'Please enter your valid mobile...';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _passwordTEController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    hintText: 'Password',
+                  ),
+                  validator: (value) {
+                    if ((value?.isEmpty ?? true) || value!.length <= 5) {
+                      return 'Please enter your password more than 6 letters...';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: Visibility(
+                    visible: _isSignUpProgress == false,
+                    replacement: const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your email...';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _firstNameTEController,
-                    decoration: const InputDecoration(
-                      hintText: 'First Name',
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
+                        userSignUp();
+                      },
+                      child: const Text('Register'),
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your first name...';
-                      }
-                      return null;
-                    },
                   ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _lastNameTEController,
-                    decoration: const InputDecoration(
-                      hintText: 'Last Name',
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Have an account?',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            letterSpacing: 0.5,
+                          ),
                     ),
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Please enter your last name...';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _mobileTEController,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: 'Mobile',
-                    ),
-                    validator: (value) {
-                      if ((value?.isEmpty ?? true) || value!.length < 11) {
-                        return 'Please enter your valid mobile...';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _passwordTEController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                    ),
-                    validator: (value) {
-                      if ((value?.isEmpty ?? true) || value!.length <= 5) {
-                        return 'Please enter your password more than 6 letters...';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      visible: _isSignUpProgress == false,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Sing In',
+                        style:
+                            Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                ),
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (!_formKey.currentState!.validate()) {
-                            return;
-                          }
-                          userSignUp();
-                        },
-                        child: const Text('Register'),
-                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Have an account?',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              letterSpacing: 0.5,
-                            ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Sing In',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),

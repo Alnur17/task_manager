@@ -50,11 +50,11 @@ class TaskListTile extends StatelessWidget {
   }
   Color _getStatusColor(String? status) {
     switch (status) {
-      case 'inProgress':
+      case 'InProgress':
         return Colors.orange;
-      case 'completed':
+      case 'Completed':
         return Colors.green;
-      case 'cancelled':
+      case 'Cancelled':
         return Colors.red;
       default:
         return Colors.blue;

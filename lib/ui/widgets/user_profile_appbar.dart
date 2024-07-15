@@ -32,7 +32,7 @@ class UserProfileAppbar extends StatelessWidget {
                     CachedNetworkImage(
                        imageUrl: AuthUtility.userInfo.data?.photo ?? '',
                       placeholder: (_, __) => const Icon(Icons.account_circle_outlined),
-                      errorWidget: (_, __, ___) => const Icon(Icons.error),
+                      errorWidget: (_, __, ___) => const Icon(Icons.account_circle_outlined),
                     ),
                     const SizedBox(width: 16),
                   ],
