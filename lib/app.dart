@@ -26,9 +26,10 @@ class _TaskManagerAppState extends State<TaskManagerApp> {
           filled: true,
           fillColor: Colors.white,
           contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          border: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.all(Radius.circular(8))),
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(8))),
         ),
-        
         textTheme: const TextTheme(
           titleLarge: TextStyle(
             fontSize: 24,
