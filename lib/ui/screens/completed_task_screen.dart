@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/network_response.dart';
@@ -50,6 +51,24 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     }
   }
 
+  Future<void> deleteTask(String taskId) async {
+    final NetworkResponse response =
+    await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
+    if (response.isSuccess) {
+      _tasksListModel.data!.removeWhere(
+            (element) => element.sId == taskId,
+      );
+      if (mounted) {
+        setState(() {});
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Deletion of task has been failed')));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +85,13 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                       itemCount: _tasksListModel.data?.length ?? 0,
                       itemBuilder: (context, index) {
                         return TaskListTile(
-                          data: _tasksListModel.data![index], onDeleteTap: () {  }, onEditTap: () {  },
+                          data: _tasksListModel.data![index],
+                          onDeleteTap: () {
+                            deleteTask(_tasksListModel.data![index].sId!);
+                          },
+                          onEditTap: () {
+                            showStatusUpdateBottomSheet(_tasksListModel.data![index]);
+                          },
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {
@@ -79,6 +104,19 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
           ],
         ),
       ),
+    );
+  }
+  void showStatusUpdateBottomSheet(TaskData task) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return UpdateTaskStatusSheetScreen(
+          task: task,
+          onUpdate: () {
+            getCompletedTasks();
+          },
+        );
+      },
     );
   }
 }
