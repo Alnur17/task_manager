@@ -52,7 +52,9 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
               onTap: () => _onItemTapped(1),
             ),
             //const SizedBox(width: 16),
-             const Spacer(flex: 4,),
+            const Spacer(
+              flex: 4,
+            ),
             BottomNavItem(
               icon: Icons.cancel_outlined,
               label: 'Cancelled',
