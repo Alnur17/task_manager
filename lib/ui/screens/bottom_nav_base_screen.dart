@@ -51,17 +51,13 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
               isSelected: _selectedScreenIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
-            //const SizedBox(width: 16),
-            const Spacer(
-              flex: 4,
-            ),
+            const SizedBox(width: 16),
             BottomNavItem(
               icon: Icons.cancel_outlined,
               label: 'Cancelled',
               isSelected: _selectedScreenIndex == 2,
               onTap: () => _onItemTapped(2),
             ),
-            // const SizedBox(width: 16),
             BottomNavItem(
               icon: Icons.done,
               label: 'Completed',
