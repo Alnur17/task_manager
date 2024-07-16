@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/data/models/network_response.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
-import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/state_managers/summary_count_controller.dart';
 import 'package:task_manager/ui/state_managers/task_controller.dart';
@@ -10,8 +8,6 @@ import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
-
-import '../../data/utils/urls.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -39,24 +35,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   void initializerForNewTask() {
     _summaryCountController.getSummaryCount();
     _taskController.getTask('New');
-  }
-
-  Future<void> deleteTask(String taskId) async {
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
-    if (response.isSuccess) {
-      _taskController.tasksListModel.data!.removeWhere(
-        (element) => element.sId == taskId,
-      );
-      if (mounted) {
-        setState(() {});
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Deletion of task has been failed')));
-      }
-    }
   }
 
   @override
@@ -116,7 +94,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                                 data:
                                     _taskController.tasksListModel.data![index],
                                 onDeleteTap: () {
-                                  deleteTask(_taskController
+                                  _taskController.deleteTask(_taskController
                                       .tasksListModel.data![index].sId!);
                                 },
                                 onEditTap: () {

@@ -4,10 +4,7 @@ import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/state_managers/task_controller.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
-import '../../data/models/network_response.dart';
 import '../../data/models/task_list_model.dart';
-import '../../data/services/network_caller.dart';
-import '../../data/utils/urls.dart';
 import '../widgets/task_list_title.dart';
 
 class CanceledTaskScreen extends StatefulWidget {
@@ -34,24 +31,6 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
     _taskController.getTask('Cancelled');
   }
 
-  Future<void> deleteTask(String taskId) async {
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
-    if (response.isSuccess) {
-      _taskController.tasksListModel.data!.removeWhere(
-        (element) => element.sId == taskId,
-      );
-      if (mounted) {
-        setState(() {});
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Deletion of task has been failed')));
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,8 +51,8 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
                             return TaskListTile(
                               data: _taskController.tasksListModel.data![index],
                               onDeleteTap: () {
-                                _taskController
-                                    .tasksListModel.data![index].sId!;
+                                _taskController.deleteTask(_taskController
+                                    .tasksListModel.data![index].sId!);
                               },
                               onEditTap: () {
                                 showStatusUpdateBottomSheet(_taskController
