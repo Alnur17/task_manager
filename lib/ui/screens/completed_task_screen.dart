@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
@@ -6,6 +7,7 @@ import '../../data/models/network_response.dart';
 import '../../data/models/task_list_model.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
+import '../state_managers/task_controller.dart';
 import '../widgets/task_list_title.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
@@ -16,46 +18,27 @@ class CompletedTaskScreen extends StatefulWidget {
 }
 
 class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
-  TaskListModel _tasksListModel = TaskListModel();
-  bool _getCanceledTaskInProgress = false;
+  final TaskController _taskController = Get.find<TaskController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        getCompletedTasks();
+        initializerForCompletedTask();
       },
     );
   }
 
-  Future<void> getCompletedTasks() async {
-    _getCanceledTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.completedTasks);
-    if (response.isSuccess) {
-      _tasksListModel = TaskListModel.fromJson(response.body!);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Completed tasks failed to load')));
-      }
-    }
-    _getCanceledTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
+  void initializerForCompletedTask() {
+    _taskController.getTask('Completed');
   }
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
-      _tasksListModel.data!.removeWhere(
+      _taskController.tasksListModel.data!.removeWhere(
         (element) => element.sId == taskId,
       );
       if (mounted) {
@@ -79,28 +62,32 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: _getCanceledTaskInProgress
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.separated(
-                      itemCount: _tasksListModel.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return TaskListTile(
-                          data: _tasksListModel.data![index],
-                          onDeleteTap: () {
-                            deleteTask(_tasksListModel.data![index].sId!);
+              child: GetBuilder<TaskController>(
+                builder: (_) {
+                  return _taskController.getTaskInProgress
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.separated(
+                          itemCount: _taskController.tasksListModel.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            return TaskListTile(
+                              data: _taskController.tasksListModel.data![index],
+                              onDeleteTap: () {
+                                deleteTask(_taskController.tasksListModel.data![index].sId!);
+                              },
+                              onEditTap: () {
+                                showStatusUpdateBottomSheet(
+                                    _taskController.tasksListModel.data![index]);
+                              },
+                            );
                           },
-                          onEditTap: () {
-                            showStatusUpdateBottomSheet(
-                                _tasksListModel.data![index]);
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              height: 4,
+                            );
                           },
                         );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          height: 4,
-                        );
-                      },
-                    ),
+                }
+              ),
             )),
           ],
         ),
@@ -115,7 +102,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
-            getCompletedTasks();
+            initializerForCompletedTask();
           },
         );
       },

@@ -31,10 +31,14 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     //call after widgets binding meaning after life-cycle ends or after build methods run
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        _summaryCountController.getSummaryCount();
-        _taskController.getTask('New');
+        initializerForNewTask();
       },
     );
+  }
+
+  void initializerForNewTask() {
+    _summaryCountController.getSummaryCount();
+    _taskController.getTask('New');
   }
 
   Future<void> deleteTask(String taskId) async {
@@ -62,70 +66,77 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         child: Column(
           children: [
             const UserProfileAppbar(),
-            GetBuilder<SummaryCountController>(builder: (_) {
-              return Visibility(
-                visible:
-                    _summaryCountController.getSummaryCountInProgress == false,
-                replacement: const LinearProgressIndicator(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: SizedBox(
-                    height: 80,
-                    width: double.infinity,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _summaryCountController
-                              .summaryCountModel.data?.length ??
-                          0,
-                      itemBuilder: (context, index) {
-                        return SummeryCard(
-                          number: _summaryCountController
-                                  .summaryCountModel.data?[index].sum ??
-                              0,
-                          title: _summaryCountController
-                                  .summaryCountModel.data?[index].sId ??
-                              'New',
-                        );
-                      },
+            GetBuilder<SummaryCountController>(
+              builder: (_) {
+                return Visibility(
+                  visible: _summaryCountController.getSummaryCountInProgress ==
+                      false,
+                  replacement: const LinearProgressIndicator(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
+                      height: 80,
+                      width: double.infinity,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _summaryCountController
+                                .summaryCountModel.data?.length ??
+                            0,
+                        itemBuilder: (context, index) {
+                          return SummeryCard(
+                            number: _summaryCountController
+                                    .summaryCountModel.data?[index].sum ??
+                                0,
+                            title: _summaryCountController
+                                    .summaryCountModel.data?[index].sId ??
+                                'New',
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              },
+            ),
             Expanded(
-                child: GetBuilder<TaskController>(
-                  builder: (_) {
-                    return RefreshIndicator(
-                                  onRefresh: () async {
-                    _summaryCountController.getSummaryCount();
-                    _taskController.getTask('New');
-                                  },
-                                  child: _taskController.getNewTaskInProgress
-                      ? const Center(child: CircularProgressIndicator())
-                      : ListView.separated(
-                          itemCount: _taskController.tasksListModel.data?.length ?? 0,
-                          itemBuilder: (context, index) {
-                            return TaskListTile(
-                              data: _taskController.tasksListModel.data![index],
-                              onDeleteTap: () {
-                                deleteTask(_taskController.tasksListModel.data![index].sId!);
-                              },
-                              onEditTap: () {
-                                showStatusUpdateBottomSheet(
-                                  _taskController.tasksListModel.data![index],
-                                );
-                              },
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider(
-                              height: 4,
-                            );
-                          },
-                        ),
-                                );
-                  }
-                )),
+              child: GetBuilder<TaskController>(
+                builder: (_) {
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      initializerForNewTask();
+                    },
+                    child: _taskController.getTaskInProgress
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.separated(
+                            itemCount:
+                                _taskController.tasksListModel.data?.length ??
+                                    0,
+                            itemBuilder: (context, index) {
+                              return TaskListTile(
+                                data:
+                                    _taskController.tasksListModel.data![index],
+                                onDeleteTap: () {
+                                  deleteTask(_taskController
+                                      .tasksListModel.data![index].sId!);
+                                },
+                                onEditTap: () {
+                                  showStatusUpdateBottomSheet(
+                                    _taskController.tasksListModel.data![index],
+                                  );
+                                },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider(
+                                height: 4,
+                              );
+                            },
+                          ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -139,7 +150,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
-            _taskController.getTask('New');
+            initializerForNewTask();
           },
         );
       },

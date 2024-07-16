@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
+import 'package:task_manager/ui/state_managers/task_controller.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/network_response.dart';
@@ -16,46 +18,27 @@ class InProgressTaskScreen extends StatefulWidget {
 }
 
 class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
-  TaskListModel _tasksListModel = TaskListModel();
-  bool _getPendingTaskInProgress = false;
+  final TaskController _taskController = Get.find<TaskController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        getPendingTasks();
+        initializerForInProgressTask();
       },
     );
   }
 
-  Future<void> getPendingTasks() async {
-    _getPendingTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.pendingTasks);
-    if (response.isSuccess) {
-      _tasksListModel = TaskListModel.fromJson(response.body!);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Pending tasks failed to load')));
-      }
-    }
-    _getPendingTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
+  void initializerForInProgressTask() {
+    _taskController.getTask('InProgress');
   }
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
-      _tasksListModel.data!.removeWhere(
+      _taskController.tasksListModel.data!.removeWhere(
         (element) => element.sId == taskId,
       );
       if (mounted) {
@@ -79,29 +62,33 @@ class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Visibility(
-                visible: _getPendingTaskInProgress == false,
-                replacement: const Center(child: CircularProgressIndicator()),
-                child: ListView.separated(
-                  itemCount: _tasksListModel.data?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return TaskListTile(
-                      data: _tasksListModel.data![index],
-                      onDeleteTap: () {
-                        _tasksListModel.data![index].sId!;
+              child: GetBuilder<TaskController>(
+                builder: (_) {
+                  return Visibility(
+                    visible: _taskController.getTaskInProgress == false,
+                    replacement: const Center(child: CircularProgressIndicator()),
+                    child: ListView.separated(
+                      itemCount: _taskController.tasksListModel.data?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return TaskListTile(
+                          data: _taskController.tasksListModel.data![index],
+                          onDeleteTap: () {
+                            _taskController.tasksListModel.data![index].sId!;
+                          },
+                          onEditTap: () {
+                            showStatusUpdateBottomSheet(
+                                _taskController.tasksListModel.data![index]);
+                          },
+                        );
                       },
-                      onEditTap: () {
-                        showStatusUpdateBottomSheet(
-                            _tasksListModel.data![index]);
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          height: 4,
+                        );
                       },
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const Divider(
-                      height: 4,
-                    );
-                  },
-                ),
+                    ),
+                  );
+                }
               ),
             )),
           ],
@@ -117,7 +104,7 @@ class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
         return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
-            getPendingTasks();
+            initializerForInProgressTask();
           },
         );
       },

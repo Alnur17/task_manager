@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
+import 'package:task_manager/ui/state_managers/task_controller.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/network_response.dart';
@@ -16,46 +18,27 @@ class CanceledTaskScreen extends StatefulWidget {
 }
 
 class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
-  TaskListModel _tasksListModel = TaskListModel();
-  bool _getCanceledTaskInProgress = false;
+  final TaskController _taskController = Get.find<TaskController>();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        getCanceledTasks();
+        initializerForCancelledTask();
       },
     );
   }
 
-  Future<void> getCanceledTasks() async {
-    _getCanceledTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.cancelledTasks);
-    if (response.isSuccess) {
-      _tasksListModel = TaskListModel.fromJson(response.body!);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Canceled tasks failed to load')));
-      }
-    }
-    _getCanceledTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
+  void initializerForCancelledTask() {
+    _taskController.getTask('Cancelled');
   }
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
-      _tasksListModel.data!.removeWhere(
+      _taskController.tasksListModel.data!.removeWhere(
         (element) => element.sId == taskId,
       );
       if (mounted) {
@@ -77,31 +60,36 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
           children: [
             const UserProfileAppbar(),
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: _getCanceledTaskInProgress
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.separated(
-                      itemCount: _tasksListModel.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return TaskListTile(
-                          data: _tasksListModel.data![index],
-                          onDeleteTap: () {
-                            _tasksListModel.data![index].sId!;
+              child: GetBuilder<TaskController>(builder: (_) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: _taskController.getTaskInProgress
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.separated(
+                          itemCount:
+                              _taskController.tasksListModel.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            return TaskListTile(
+                              data: _taskController.tasksListModel.data![index],
+                              onDeleteTap: () {
+                                _taskController
+                                    .tasksListModel.data![index].sId!;
+                              },
+                              onEditTap: () {
+                                showStatusUpdateBottomSheet(_taskController
+                                    .tasksListModel.data![index]);
+                              },
+                            );
                           },
-                          onEditTap: () {
-                            showStatusUpdateBottomSheet(
-                                _tasksListModel.data![index]);
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              height: 4,
+                            );
                           },
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          height: 4,
-                        );
-                      },
-                    ),
-            )),
+                        ),
+                );
+              }),
+            ),
           ],
         ),
       ),
@@ -115,7 +103,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
         return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
-            getCanceledTasks();
+            initializerForCancelledTask();
           },
         );
       },

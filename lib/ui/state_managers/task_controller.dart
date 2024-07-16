@@ -7,17 +7,17 @@ import '../../data/utils/urls.dart';
 
 class TaskController extends GetxController {
   TaskListModel _tasksListModel = TaskListModel();
-  bool _getNewTaskInProgress = false;
+  bool _getTaskInProgress = false;
 
-  bool get getNewTaskInProgress => _getNewTaskInProgress;
+  bool get getTaskInProgress => _getTaskInProgress;
   TaskListModel get tasksListModel => _tasksListModel;
 
   Future<bool> getTask(String taskName) async {
-    _getNewTaskInProgress = true;
+    _getTaskInProgress = true;
     update();
     final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.tasks(taskName));
-    _getNewTaskInProgress = false;
+    _getTaskInProgress = false;
     if (response.isSuccess) {
       _tasksListModel = TaskListModel.fromJson(response.body!);
       update();
