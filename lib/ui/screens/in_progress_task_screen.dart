@@ -79,27 +79,30 @@ class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
             Expanded(
                 child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: _getPendingTaskInProgress
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.separated(
-                      itemCount: _tasksListModel.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return TaskListTile(
-                          data: _tasksListModel.data![index],
-                          onDeleteTap: () {
-                            _tasksListModel.data![index].sId!;
-                          },
-                          onEditTap: () {
-                            showStatusUpdateBottomSheet(_tasksListModel.data![index]);
-                          },
-                        );
+              child: Visibility(
+                visible: _getPendingTaskInProgress == false,
+                replacement: const Center(child: CircularProgressIndicator()),
+                child: ListView.separated(
+                  itemCount: _tasksListModel.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return TaskListTile(
+                      data: _tasksListModel.data![index],
+                      onDeleteTap: () {
+                        _tasksListModel.data![index].sId!;
                       },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          height: 4,
-                        );
+                      onEditTap: () {
+                        showStatusUpdateBottomSheet(
+                            _tasksListModel.data![index]);
                       },
-                    ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider(
+                      height: 4,
+                    );
+                  },
+                ),
+              ),
             )),
           ],
         ),
