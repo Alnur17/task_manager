@@ -51,7 +51,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
+            builder: (context) => LoginScreen(),
           ),
           (route) => false,
         );
@@ -109,7 +109,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter your password...';
                     } else if (value! != _passwordTEController.text) {
-                      return 'Confirm password doesn\'t match';
+                      return "Confirm password doesn't match";
                     }
                     return null;
                   },
@@ -153,7 +153,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
+                            builder: (context) => LoginScreen(),
                           ),
                           (route) => false,
                         );

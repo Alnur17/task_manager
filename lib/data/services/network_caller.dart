@@ -70,7 +70,7 @@ class NetworkCaller {
     Navigator.pushAndRemoveUntil(
       TaskManagerApp.globalKey.currentContext!,
       MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
+        builder: (context) => LoginScreen(),
       ),
       (route) => false,
     );

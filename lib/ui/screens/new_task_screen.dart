@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/models/network_response.dart';
-import 'package:task_manager/data/models/summary_count_model.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
+import 'package:task_manager/ui/state_managers/summary_count_controller.dart';
+import 'package:task_manager/ui/state_managers/task_controller.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/summery_card.dart';
 import 'package:task_manager/ui/widgets/task_list_title.dart';
@@ -19,9 +21,9 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-  SummaryCountModel _summaryCountModel = SummaryCountModel();
-  TaskListModel _tasksListModel = TaskListModel();
-  bool _getSummaryCountInProgress = false, _getNewTaskInProgress = false;
+  final SummaryCountController _summaryCountController =
+      Get.find<SummaryCountController>();
+  final TaskController _taskController = Get.find<TaskController>();
 
   @override
   void initState() {
@@ -29,61 +31,17 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     //call after widgets binding meaning after life-cycle ends or after build methods run
     WidgetsBinding.instance.addPostFrameCallback(
       (_) {
-        getSummaryCount();
-        getNewTasks();
+        _summaryCountController.getSummaryCount();
+        _taskController.getTask('New');
       },
     );
-  }
-
-  Future<void> getSummaryCount() async {
-    _getSummaryCountInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.taskStatusCount);
-    if (response.isSuccess) {
-      _summaryCountModel = SummaryCountModel.fromJson(response.body!);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Summary data failed to load')));
-      }
-    }
-    _getSummaryCountInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  Future<void> getNewTasks() async {
-    _getNewTaskInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.newTasks);
-    if (response.isSuccess) {
-      _tasksListModel = TaskListModel.fromJson(response.body!);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('New tasks failed to load')));
-      }
-    }
-    _getNewTaskInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
   }
 
   Future<void> deleteTask(String taskId) async {
     final NetworkResponse response =
         await NetworkCaller().getRequest(Urls.deleteTasks(taskId));
     if (response.isSuccess) {
-      _tasksListModel.data!.removeWhere(
+      _taskController.tasksListModel.data!.removeWhere(
         (element) => element.sId == taskId,
       );
       if (mounted) {
@@ -104,54 +62,70 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         child: Column(
           children: [
             const UserProfileAppbar(),
-            _getSummaryCountInProgress
-                ? const LinearProgressIndicator()
-                : Container(
-                    padding: const EdgeInsets.all(8),
-                    child: SizedBox(
-                      height: 80,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: _summaryCountModel.data?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return SummeryCard(
-                            number: _summaryCountModel.data?[index].sum ?? 0,
-                            title: _summaryCountModel.data?[index].sId ?? 'New',
-                          );
-                        },
-                      ),
+            GetBuilder<SummaryCountController>(builder: (_) {
+              return Visibility(
+                visible:
+                    _summaryCountController.getSummaryCountInProgress == false,
+                replacement: const LinearProgressIndicator(),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: SizedBox(
+                    height: 80,
+                    width: double.infinity,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _summaryCountController
+                              .summaryCountModel.data?.length ??
+                          0,
+                      itemBuilder: (context, index) {
+                        return SummeryCard(
+                          number: _summaryCountController
+                                  .summaryCountModel.data?[index].sum ??
+                              0,
+                          title: _summaryCountController
+                                  .summaryCountModel.data?[index].sId ??
+                              'New',
+                        );
+                      },
                     ),
                   ),
+                ),
+              );
+            }),
             Expanded(
-                child: RefreshIndicator(
-              onRefresh: () async {
-                getNewTasks();
-                getSummaryCount();
-              },
-              child: _getNewTaskInProgress
-                  ? const Center(child: CircularProgressIndicator())
-                  : ListView.separated(
-                      itemCount: _tasksListModel.data?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return TaskListTile(
-                          data: _tasksListModel.data![index],
-                          onDeleteTap: () {
-                            deleteTask(_tasksListModel.data![index].sId!);
+                child: GetBuilder<TaskController>(
+                  builder: (_) {
+                    return RefreshIndicator(
+                                  onRefresh: () async {
+                    _summaryCountController.getSummaryCount();
+                    _taskController.getTask('New');
+                                  },
+                                  child: _taskController.getNewTaskInProgress
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.separated(
+                          itemCount: _taskController.tasksListModel.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            return TaskListTile(
+                              data: _taskController.tasksListModel.data![index],
+                              onDeleteTap: () {
+                                deleteTask(_taskController.tasksListModel.data![index].sId!);
+                              },
+                              onEditTap: () {
+                                showStatusUpdateBottomSheet(
+                                  _taskController.tasksListModel.data![index],
+                                );
+                              },
+                            );
                           },
-                          onEditTap: () {
-                            showStatusUpdateBottomSheet(
-                                _tasksListModel.data![index]);
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider(
+                              height: 4,
+                            );
                           },
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider(
-                          height: 4,
-                        );
-                      },
-                    ),
-            )),
+                        ),
+                                );
+                  }
+                )),
           ],
         ),
       ),
@@ -165,7 +139,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         return UpdateTaskStatusSheetScreen(
           task: task,
           onUpdate: () {
-            getNewTasks();
+            _taskController.getTask('New');
           },
         );
       },

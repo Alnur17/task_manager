@@ -1,69 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/data/models/auth_utility.dart';
-import 'package:task_manager/data/models/login_model.dart';
-import 'package:task_manager/data/services/network_caller.dart';
-import 'package:task_manager/ui/screens/bottom_nav_base_screen.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/ui/screens/auth/email_verification_screen.dart';
+import 'package:task_manager/ui/screens/bottom_nav_base_screen.dart';
+import 'package:task_manager/ui/state_managers/login_controller.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
-import '../../../data/models/network_response.dart';
-import '../../../data/utils/urls.dart';
 import 'registration_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatelessWidget {
+   LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTEController = TextEditingController();
+
   final TextEditingController _passwordTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _isLoginInProgress = false;
-
-  Future<void> userLogIn() async {
-    _isLoginInProgress = true;
-    if (mounted) {
-      setState(() {});
-    }
-
-    Map<String, dynamic> responseBody = {
-      "email": _emailTEController.text.trim(),
-      "password": _passwordTEController.text,
-    };
-
-    final NetworkResponse response = await NetworkCaller().postRequest(
-      Urls.login,
-      responseBody,
-      isLogin: true,
-    );
-    _isLoginInProgress = false;
-    if (mounted) {
-      setState(() {});
-    }
-    if (response.isSuccess) {
-      LoginModel model = LoginModel.fromJson(response.body!);
-      await AuthUtility.saveUserInfo(model);
-      if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const BottomNavBaseScreen(),
-          ),
-          (route) => false,
-        );
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Incorrect email or password')));
-      }
-    }
-  }
+  //final LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -117,23 +70,41 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  child: Visibility(
-                    visible: _isLoginInProgress == false,
-                    replacement: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
-                          return;
-                        }
-                        userLogIn();
-                      },
-                      child: const Text('Sing In'),
-                    ),
-                  ),
+                GetBuilder<LoginController>(
+                  builder: (loginController) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: loginController.loginInProgress == false,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
+                            loginController
+                                .login(
+                              _emailTEController.text.trim(),
+                              _passwordTEController.text,
+                            )
+                                .then(
+                              (result) {
+                                if (result == true) {
+                                  Get.offAll(() => const BottomNavBaseScreen());
+                                } else {
+                                  Get.snackbar(
+                                      'Failed', 'Login failed! try again.');
+                                }
+                              },
+                            );
+                          },
+                          child: const Text('Sing In'),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 16),
                 Center(

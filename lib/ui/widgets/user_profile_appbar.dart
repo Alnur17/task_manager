@@ -60,7 +60,7 @@ class UserProfileAppbar extends StatelessWidget {
               AuthUtility.clearUserInfo();
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
                   (route) => false);
             },
             icon: const Icon(Icons.logout_outlined),
