@@ -116,7 +116,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: const BoxDecoration(
-                                  color: Colors.grey,
+                                  color: Colors.blue,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(8),
                                       bottomLeft: Radius.circular(8)),

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/models/auth_utility.dart';
 import 'package:task_manager/ui/screens/auth/login_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
@@ -16,11 +17,7 @@ class UserProfileAppbar extends StatelessWidget {
         title: GestureDetector(
           onTap: () {
             if ((isUpdateScreen ?? false) == false) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UpdateProfileScreen(),
-                  ));
+              Get.to(() => const UpdateProfileScreen());
             }
           },
           child: Row(
@@ -30,9 +27,11 @@ class UserProfileAppbar extends StatelessWidget {
                 child: Row(
                   children: [
                     CachedNetworkImage(
-                       imageUrl: AuthUtility.userInfo.data?.photo ?? '',
-                      placeholder: (_, __) => const Icon(Icons.account_circle_outlined),
-                      errorWidget: (_, __, ___) => const Icon(Icons.account_circle_outlined),
+                      imageUrl: AuthUtility.userInfo.data?.photo ?? '',
+                      placeholder: (_, __) =>
+                          const Icon(Icons.account_circle_outlined),
+                      errorWidget: (_, __, ___) =>
+                          const Icon(Icons.account_circle_outlined),
                     ),
                     const SizedBox(width: 16),
                   ],
@@ -42,7 +41,8 @@ class UserProfileAppbar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${AuthUtility.userInfo.data?.firstName ?? ''}  ${AuthUtility.userInfo.data?.lastName ?? ''}',
+                    '${AuthUtility.userInfo.data?.firstName ?? ''}  '
+                        '${AuthUtility.userInfo.data?.lastName ?? ''}',
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   Text(
@@ -58,10 +58,7 @@ class UserProfileAppbar extends StatelessWidget {
           IconButton(
             onPressed: () {
               AuthUtility.clearUserInfo();
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
-                  (route) => false);
+              Get.offAll(() => LoginScreen());
             },
             icon: const Icon(Icons.logout_outlined),
           ),

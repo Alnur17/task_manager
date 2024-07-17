@@ -21,7 +21,9 @@ class TaskListTile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 4),
           Text(data.description ?? ''),
+          const SizedBox(height: 4),
           Text(data.createdDate ?? ''),
           Row(
             children: [

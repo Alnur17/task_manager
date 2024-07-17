@@ -110,12 +110,7 @@ class LoginScreen extends StatelessWidget {
                 Center(
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmailVerificationScreen(),
-                        ),
-                      );
+                      Get.to(() => const EmailVerificationScreen());
                     },
                     child: Text(
                       'Forgot Password?',
@@ -134,12 +129,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegistrationScreen(),
-                          ),
-                        );
+                        Get.to(() => const RegistrationScreen());
                       },
                       child: Text(
                         'Register Now',

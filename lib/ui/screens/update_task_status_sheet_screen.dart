@@ -54,47 +54,56 @@ class _UpdateTaskStatusSheetScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            'Update Status',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: taskStatusList.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  _selectedTask = taskStatusList[index];
-                  setState(() {});
-                },
-                title: Text(taskStatusList[index]),
-                trailing: _selectedTask == taskStatusList[index]
-                    ? const Icon(Icons.check)
-                    : null,
-              );
-            },
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          child: Visibility(
-            visible: _updateTaskStatus == false,
-            replacement: const Center(child: CircularProgressIndicator()),
-            child: ElevatedButton(
-              onPressed: () {
-                updateTask(widget.task.sId!, _selectedTask);
-              },
-              child: const Text('Update'),
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              'Update Status',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
-        )
-      ],
+          Expanded(
+            child: ListView.builder(
+              itemCount: taskStatusList.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    _selectedTask = taskStatusList[index];
+                    setState(() {});
+                  },
+                  title: Text(taskStatusList[index]),
+                  trailing: _selectedTask == taskStatusList[index]
+                      ? const Icon(Icons.check)
+                      : null,
+                );
+              },
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            child: Visibility(
+              visible: _updateTaskStatus == false,
+              replacement: const Center(child: CircularProgressIndicator()),
+              child: ElevatedButton(
+                onPressed: () {
+                  updateTask(widget.task.sId!, _selectedTask);
+                },
+                child: const Text('Update'),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

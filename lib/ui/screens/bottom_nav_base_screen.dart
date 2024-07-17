@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/ui/screens/canceled_task_screen.dart';
 import 'package:task_manager/ui/screens/completed_task_screen.dart';
 import 'package:task_manager/ui/screens/new_task_screen.dart';
@@ -36,6 +37,7 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         height: 60,
+        //elevation: 5,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -68,16 +70,13 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
         ),
       ),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+          FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddNewTaskScreen(),
-            ),
-          );
+          Get.to(() => const AddNewTaskScreen());
         },
+        mini: true,
+        elevation: 15,
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
       ),

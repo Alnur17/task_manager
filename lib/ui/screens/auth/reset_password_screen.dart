@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/models/network_response.dart';
 import 'package:task_manager/data/services/network_caller.dart';
 import 'package:task_manager/data/utils/urls.dart';
@@ -150,13 +151,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                          (route) => false,
-                        );
+                        Get.offAll((context) => LoginScreen());
                       },
                       child: Text(
                         'Sign In',
