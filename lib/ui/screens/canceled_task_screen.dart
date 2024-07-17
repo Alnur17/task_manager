@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/ui/screens/update_task_status_sheet_screen.dart';
 import 'package:task_manager/ui/state_managers/task_controller.dart';
+import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
 
 import '../../data/models/task_list_model.dart';
@@ -34,7 +35,7 @@ class _CanceledTaskScreenState extends State<CanceledTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: ScreenBackground(
         child: Column(
           children: [
             const UserProfileAppbar(),

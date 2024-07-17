@@ -123,6 +123,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   void showStatusUpdateBottomSheet(TaskData task) {
     showModalBottomSheet(
+      backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
         return UpdateTaskStatusSheetScreen(
