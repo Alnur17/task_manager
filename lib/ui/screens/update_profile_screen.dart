@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_manager/data/models/auth_utility.dart';
 import 'package:task_manager/data/models/login_model.dart';
-import 'package:task_manager/data/models/network_response.dart';
-import 'package:task_manager/data/services/network_caller.dart';
-import 'package:task_manager/data/utils/urls.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
+
+import '../../data/models/network_response.dart';
+import '../../data/services/network_caller.dart';
+import '../../data/utils/urls.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -25,7 +26,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _profileUpdateInProgress = false;
+
+  bool _updateProfileInProgress = false;
   XFile? imageFile;
   ImagePicker picker = ImagePicker();
 
@@ -39,7 +41,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void> updateProfile() async {
-    _profileUpdateInProgress == true;
+    _updateProfileInProgress == true;
     if (mounted) {
       setState(() {});
     }
@@ -56,7 +58,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
     final NetworkResponse response =
         await NetworkCaller().postRequest(Urls.profileUpdate, responseBody);
-    _profileUpdateInProgress = false;
+    _updateProfileInProgress = false;
     if (mounted) {
       setState(() {});
     }
@@ -215,7 +217,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: Visibility(
-                          visible: _profileUpdateInProgress == false,
+                          visible: _updateProfileInProgress == false,
                           replacement: const Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -229,7 +231,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             child: const Text('Update'),
                           ),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),

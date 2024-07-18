@@ -18,7 +18,12 @@ class UpdateTaskStatusSheetScreen extends StatefulWidget {
 
 class _UpdateTaskStatusSheetScreenState
     extends State<UpdateTaskStatusSheetScreen> {
-  List<String> taskStatusList = ['New', 'InProgress', 'Cancelled', 'Completed'];
+  final List<String> _taskStatusList = [
+    'New',
+    'InProgress',
+    'Cancelled',
+    'Completed'
+  ];
   late String _selectedTask;
   final bool _updateTaskStatus = false;
 
@@ -28,13 +33,13 @@ class _UpdateTaskStatusSheetScreenState
     _selectedTask = widget.task.status!;
   }
 
-  Future<void> updateTask(String taskId, taskStatus) async {
+  Future<void> updateTaskStatus(String taskId, taskStatus) async {
     _updateTaskStatus == true;
     if (mounted) {
       setState(() {});
     }
-    final NetworkResponse response =
-        await NetworkCaller().getRequest(Urls.updateTasks(taskId, taskStatus));
+    final NetworkResponse response = await NetworkCaller()
+        .getRequest(Urls.updateTaskStatus(taskId, taskStatus));
     _updateTaskStatus == false;
     if (mounted) {
       setState(() {});
@@ -73,15 +78,15 @@ class _UpdateTaskStatusSheetScreenState
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: taskStatusList.length,
+              itemCount: _taskStatusList.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: () {
-                    _selectedTask = taskStatusList[index];
+                    _selectedTask = _taskStatusList[index];
                     setState(() {});
                   },
-                  title: Text(taskStatusList[index]),
-                  trailing: _selectedTask == taskStatusList[index]
+                  title: Text(_taskStatusList[index]),
+                  trailing: _selectedTask == _taskStatusList[index]
                       ? const Icon(Icons.check)
                       : null,
                 );
@@ -89,19 +94,18 @@ class _UpdateTaskStatusSheetScreenState
             ),
           ),
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            child: Visibility(
-              visible: _updateTaskStatus == false,
-              replacement: const Center(child: CircularProgressIndicator()),
-              child: ElevatedButton(
-                onPressed: () {
-                  updateTask(widget.task.sId!, _selectedTask);
-                },
-                child: const Text('Update'),
-              ),
-            ),
-          )
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              child: Visibility(
+                visible: _updateTaskStatus == false,
+                replacement: const Center(child: CircularProgressIndicator()),
+                child: ElevatedButton(
+                  onPressed: () {
+                    updateTaskStatus(widget.task.sId!, _selectedTask);
+                  },
+                  child: const Text('Update'),
+                ),
+              )),
         ],
       ),
     );
