@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 
@@ -148,13 +149,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
-                          ),
-                          (route) => false,
-                        );
+                        Get.offAll(() => LoginScreen());
                       },
                       child: Text(
                         'Sing In',
