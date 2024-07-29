@@ -36,8 +36,8 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
       body: _screens[_selectedScreenIndex],
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        height: 60,
-        //elevation: 5,
+        height: 70,
+        elevation: 5,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -75,8 +75,6 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
         onPressed: () {
           Get.to(() => const AddNewTaskScreen());
         },
-        mini: true,
-        elevation: 15,
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
       ),
