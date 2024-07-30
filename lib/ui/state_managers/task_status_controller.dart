@@ -6,18 +6,18 @@ import '../../data/models/network_response.dart';
 import '../../data/services/network_caller.dart';
 import '../../data/utils/urls.dart';
 
-class UpdateTaskStatusController extends GetxController {
-  bool _updateTaskStatusInProgress = false;
+class TaskStatusController extends GetxController {
+  final bool _taskStatusInProgress = false;
 
-  bool get updateTaskStatusInProgress => _updateTaskStatusInProgress;
+  bool get taskStatusInProgress => _taskStatusInProgress;
 
   Future<void> updateTaskStatus(
       String taskId, String taskStatus, VoidCallback onUpdate) async {
-    _updateTaskStatusInProgress == true;
+    _taskStatusInProgress == true;
     update();
     final NetworkResponse response = await NetworkCaller()
         .getRequest(Urls.updateTaskStatus(taskId, taskStatus));
-    _updateTaskStatusInProgress == false;
+    _taskStatusInProgress == false;
     update();
     if (response.isSuccess) {
       onUpdate();

@@ -3,7 +3,7 @@ import 'package:task_manager/ui/state_managers/email_verification_controller.dar
 import 'package:task_manager/ui/state_managers/login_controller.dart';
 import 'package:task_manager/ui/state_managers/summary_count_controller.dart';
 import 'package:task_manager/ui/state_managers/task_controller.dart';
-import 'package:task_manager/ui/state_managers/update_task_status_controller.dart';
+import 'package:task_manager/ui/state_managers/task_status_controller.dart';
 
 import 'add_new_task_controller.dart';
 
@@ -16,6 +16,6 @@ class ControllerBinding extends Bindings{
     Get.put<TaskController>(TaskController());
     Get.put<AddNewTaskController>(AddNewTaskController());
     //Get.put<UpdateProfileController>(UpdateProfileController());
-    Get.put<UpdateTaskStatusController>(UpdateTaskStatusController());
+    Get.put<TaskStatusController>(TaskStatusController());
   }
 }

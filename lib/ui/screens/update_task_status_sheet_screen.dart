@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_manager/data/models/task_list_model.dart';
-import 'package:task_manager/ui/state_managers/update_task_status_controller.dart';
+import 'package:task_manager/ui/state_managers/task_status_controller.dart';
 
 class UpdateTaskStatusSheetScreen extends StatefulWidget {
   final TaskData task;
@@ -24,8 +24,8 @@ class _UpdateTaskStatusSheetScreenState
     'Completed'
   ];
   late String _selectedTask;
-  final UpdateTaskStatusController _updateTaskStatusController =
-      Get.put(UpdateTaskStatusController());
+  final TaskStatusController _updateTaskStatusController =
+      Get.put(TaskStatusController());
 
   @override
   void initState() {
@@ -72,10 +72,10 @@ class _UpdateTaskStatusSheetScreenState
           Container(
               width: double.infinity,
               padding: const EdgeInsets.all(16),
-              child: GetBuilder<UpdateTaskStatusController>(builder: (_) {
+              child: GetBuilder<TaskStatusController>(builder: (_) {
                 return Visibility(
                   visible:
-                      _updateTaskStatusController.updateTaskStatusInProgress ==
+                      _updateTaskStatusController.taskStatusInProgress ==
                           false,
                   replacement: const Center(child: CircularProgressIndicator()),
                   child: ElevatedButton(
