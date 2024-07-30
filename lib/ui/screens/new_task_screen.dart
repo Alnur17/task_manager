@@ -123,7 +123,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   void showStatusUpdateBottomSheet(TaskData task) {
     showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
       context: context,
       builder: (context) {
         return UpdateTaskStatusSheetScreen(
