@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../data/models/auth_utility.dart';
+import '../utils/auth_utility.dart';
 import '../../data/models/login_model.dart';
 import '../../data/models/network_response.dart';
 import '../../data/services/network_caller.dart';

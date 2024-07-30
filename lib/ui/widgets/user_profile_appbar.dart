@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/data/models/auth_utility.dart';
+import 'package:task_manager/ui/utils/auth_utility.dart';
 import 'package:task_manager/ui/screens/auth/login_screen.dart';
 import 'package:task_manager/ui/screens/update_profile_screen.dart';
 

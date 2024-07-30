@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:task_manager/data/models/auth_utility.dart';
+import 'package:task_manager/ui/utils/auth_utility.dart';
 import 'package:task_manager/data/models/login_model.dart';
 import 'package:task_manager/ui/widgets/screen_background.dart';
 import 'package:task_manager/ui/widgets/user_profile_appbar.dart';
