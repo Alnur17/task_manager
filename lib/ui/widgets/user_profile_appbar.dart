@@ -13,55 +13,64 @@ class UserProfileAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        backgroundColor: Colors.blue,
-        title: GestureDetector(
-          onTap: () {
-            if ((isUpdateScreen ?? false) == false) {
-              Get.to(() => const UpdateProfileScreen());
-            }
-          },
-          child: Row(
-            children: [
-              Visibility(
-                visible: (isUpdateScreen ?? false) == false,
-                child: Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: AuthUtility.userInfo.data?.photo ?? '',
-                      placeholder: (_, __) =>
-                          const Icon(Icons.account_circle_outlined),
-                      errorWidget: (_, __, ___) =>
-                          const Icon(Icons.account_circle_outlined),
-                    ),
-                    const SizedBox(width: 16),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      toolbarHeight: 65,
+      backgroundColor: Colors.blue,
+      title: GestureDetector(
+        onTap: () {
+          if ((isUpdateScreen ?? false) == false) {
+            Get.to(() => const UpdateProfileScreen());
+          }
+        },
+        child: Row(
+          children: [
+            Visibility(
+              visible: (isUpdateScreen ?? false) == false,
+              child: Row(
                 children: [
-                  Text(
-                    '${AuthUtility.userInfo.data?.firstName ?? ''}  '
-                        '${AuthUtility.userInfo.data?.lastName ?? ''}',
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                  CachedNetworkImage(
+                    imageUrl: AuthUtility.userInfo.data?.photo ?? '',
+                    placeholder: (_, __) =>
+                        const Icon(Icons.account_circle_outlined),
+                    errorWidget: (_, __, ___) =>
+                        const Icon(Icons.account_circle_outlined),
                   ),
-                  Text(
-                    AuthUtility.userInfo.data?.email ?? 'Unknown',
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
-                  ),
+                  const SizedBox(width: 16),
                 ],
               ),
-            ],
-          ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${AuthUtility.userInfo.data?.firstName ?? ''}  '
+                  '${AuthUtility.userInfo.data?.lastName ?? ''}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  AuthUtility.userInfo.data?.email ?? 'Unknown',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              AuthUtility.clearUserInfo();
-              Get.offAll(() => LoginScreen());
-            },
-            icon: const Icon(Icons.logout_outlined),
-          ),
-        ]);
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            AuthUtility.clearUserInfo();
+            Get.offAll(() => LoginScreen());
+          },
+          icon: const Icon(Icons.logout_outlined),
+        ),
+      ],
+    );
   }
 }
