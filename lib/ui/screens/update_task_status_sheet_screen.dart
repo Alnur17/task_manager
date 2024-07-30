@@ -24,7 +24,7 @@ class _UpdateTaskStatusSheetScreenState
     'Completed'
   ];
   late String _selectedTask;
-  final TaskStatusController _updateTaskStatusController =
+  final TaskStatusController _taskStatusController =
       Get.put(TaskStatusController());
 
   @override
@@ -75,12 +75,12 @@ class _UpdateTaskStatusSheetScreenState
               child: GetBuilder<TaskStatusController>(builder: (_) {
                 return Visibility(
                   visible:
-                      _updateTaskStatusController.taskStatusInProgress ==
+                      _taskStatusController.taskStatusInProgress ==
                           false,
                   replacement: const Center(child: CircularProgressIndicator()),
                   child: ElevatedButton(
                     onPressed: () {
-                      _updateTaskStatusController.updateTaskStatus(
+                      _taskStatusController.updateTaskStatus(
                           widget.task.sId!, _selectedTask, widget.onUpdate);
                     },
                     child: const Text('Update'),
