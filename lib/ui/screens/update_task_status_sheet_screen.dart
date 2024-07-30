@@ -35,60 +35,52 @@ class _UpdateTaskStatusSheetScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            'Update Status',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
         ),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              'Update Status',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+        Expanded(
+          child: ListView.builder(
+            itemCount: _taskStatusList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: () {
+                  _selectedTask = _taskStatusList[index];
+                  setState(() {});
+                },
+                title: Text(_taskStatusList[index]),
+                trailing: _selectedTask == _taskStatusList[index]
+                    ? const Icon(Icons.check)
+                    : null,
+              );
+            },
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _taskStatusList.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    _selectedTask = _taskStatusList[index];
-                    setState(() {});
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          child: GetBuilder<TaskStatusController>(
+            builder: (_) {
+              return Visibility(
+                visible: _taskStatusController.taskStatusInProgress == false,
+                replacement: const Center(child: CircularProgressIndicator()),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _taskStatusController.updateTaskStatus(
+                        widget.task.sId!, _selectedTask, widget.onUpdate);
                   },
-                  title: Text(_taskStatusList[index]),
-                  trailing: _selectedTask == _taskStatusList[index]
-                      ? const Icon(Icons.check)
-                      : null,
-                );
-              },
-            ),
+                  child: const Text('Update'),
+                ),
+              );
+            },
           ),
-          Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              child: GetBuilder<TaskStatusController>(builder: (_) {
-                return Visibility(
-                  visible:
-                      _taskStatusController.taskStatusInProgress ==
-                          false,
-                  replacement: const Center(child: CircularProgressIndicator()),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _taskStatusController.updateTaskStatus(
-                          widget.task.sId!, _selectedTask, widget.onUpdate);
-                    },
-                    child: const Text('Update'),
-                  ),
-                );
-              })),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
