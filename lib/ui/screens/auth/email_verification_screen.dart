@@ -13,44 +13,7 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  //bool _emailVerificationInProgress = false;
   final TextEditingController _emailTEController = TextEditingController();
-
-  // Future<void> sentOtpToEmail() async {
-  //   _emailVerificationInProgress = true;
-  //   if (mounted) {
-  //     setState(() {});
-  //   }
-  //   final NetworkResponse response = await NetworkCaller().getRequest(
-  //     Urls.sentOtpToEmail(
-  //       _emailTEController.text.trim(),
-  //     ),
-  //   );
-  //   _emailVerificationInProgress = false;
-  //   if (mounted) {
-  //     setState(() {});
-  //   }
-  //   if (response.isSuccess) {
-  //     if (mounted) {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => OtpVerificationScreen(
-  //             email: _emailTEController.text.trim(),
-  //           ),
-  //         ),
-  //       );
-  //     } else {
-  //       if (mounted) {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(
-  //             content: Text('Email verification failed'),
-  //           ),
-  //         );
-  //       }
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -92,23 +55,24 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: GetBuilder<EmailVerificationController>(
-                    builder: (emailVerification) {
-                      return Visibility(
-                        visible: emailVerification.emailVerificationInProgress == false,
-                        replacement:
-                            const Center(child: CircularProgressIndicator()),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            emailVerification.sentOtpToEmail(_emailTEController.text.trim());
-                          },
-                          child: const Text('Send'),
-                        ),
-                      );
-                    }
-                  ),
+                      builder: (emailVerification) {
+                    return Visibility(
+                      visible: emailVerification.emailVerificationInProgress ==
+                          false,
+                      replacement:
+                          const Center(child: CircularProgressIndicator()),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          emailVerification
+                              .sentOtpToEmail(_emailTEController.text.trim());
+                        },
+                        child: const Text('Send'),
+                      ),
+                    );
+                  }),
                 ),
                 const SizedBox(height: 16),
                 Row(
