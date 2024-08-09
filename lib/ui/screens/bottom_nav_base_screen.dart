@@ -69,9 +69,9 @@ class _BottomNavBaseScreenState extends State<BottomNavBaseScreen> {
           ],
         ),
       ),
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        elevation: 25,
         onPressed: () {
           Get.to(() => const AddNewTaskScreen());
         },

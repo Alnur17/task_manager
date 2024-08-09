@@ -13,8 +13,9 @@ class SummeryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.sizeOf(context).width;
     return SizedBox(
-      width: 100,
+      width: (width / 4) - 4, // Minus 4 cause cart has default margin
       child: Card(
         elevation: 5,
         child: Column(

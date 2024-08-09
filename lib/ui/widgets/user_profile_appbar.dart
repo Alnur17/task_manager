@@ -13,8 +13,7 @@ class UserProfileAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: 65,
-      backgroundColor: Colors.blue,
+      toolbarHeight: 70,
       title: GestureDetector(
         onTap: () {
           if ((isUpdateScreen ?? false) == false) {
